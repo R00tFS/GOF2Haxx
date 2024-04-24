@@ -1,6 +1,6 @@
 TARGET := iphone:clang:latest:14.5
 INSTALL_TARGET_PROCESSES = 'Galaxy On Fire 2 HD'
-
+SDKROOT=$(THEOS)/sdks/iPhoneOS14.5.sdk
 
 include $(THEOS)/makefiles/common.mk
 
