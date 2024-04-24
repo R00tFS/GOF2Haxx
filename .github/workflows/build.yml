@@ -1,0 +1,36 @@
+name: Build
+
+on:
+  push:
+    branches: '*'
+  pull_request:
+    branches: '*'
+
+jobs:
+  build:
+
+    runs-on: macos-latest
+    permissions:
+      contents: write
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: true
+
+    - name: Install Theos
+      uses: Randomblock1/theos-action@v1.3
+
+    - name: Set execute flag on build.sh
+      run: chmod +x build.sh
+
+    - name: Run build
+      run: ./build.sh
+      
+    - name: upload artifact to release
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: "packages/*.deb"
+        tag: Build-${{github.run_id}}
+        body: Build for commit ${{ github.event.head_commit.message }} on ${{ github.head_ref || github.ref_name }} 
+    

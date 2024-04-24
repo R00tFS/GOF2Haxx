@@ -1,6 +1,6 @@
-TARGET := iphone:clang:latest:14.5
+TARGET := iphone:clang:14.5:14.0
 INSTALL_TARGET_PROCESSES = 'Galaxy On Fire 2 HD'
-
+export SYSROOT = $(THEOS)/sdks/iPhoneOS14.5.sdk
 
 include $(THEOS)/makefiles/common.mk
 
