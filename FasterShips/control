@@ -1,0 +1,9 @@
+Package: fr.rootfs.fasterships
+Name: FasterShips
+Version: 0.0.1
+Architecture: iphoneos-arm
+Description: An awesome MobileSubstrate tweak!
+Maintainer: rootfs
+Author: rootfs
+Section: Tweaks
+Depends: mobilesubstrate (>= 0.9.5000)

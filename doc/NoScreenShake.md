@@ -5,10 +5,10 @@ Welcome to my write-up about how to patch the game to remove this shake effect.
 Everyone should be able to understand this, tho, basic reverse engineering will be useful !
 
 First of all searching "Camera" in the symbols I can find a bunch of functions. 
-![symbols](Screenshots/symbols_initial.png)
+![symbols](Screenshots/NSS_symbols_initial.png)
 One class looks really interesting, `TargetFollowCamera`, I can see a lot of methods related to the player's camera which probably holds something interesting for this case.
 Digging into those function, I find two which contains the word `translate`.
-![translate](Screenshots/symbols_translate.png)
+![translate](Screenshots/NSS_symbols_translate.png)
 
 So I decided to hook the `translate(float, float, float)` function and see what it does.
 Here is the code : 
@@ -19,7 +19,7 @@ Here is the code :
 ```
 
 It didn't work, after some more digging, I saw the `setBoostPercentage(float, int)` which was exactly what I was trying to achieve. 
-![set](Screenshots/symbols_boost.png)
+![set](Screenshots/NSS_symbols_boost.png)
 
 I then wrote something to hook that.
 
@@ -42,7 +42,7 @@ Simply not calling the original function, which worked !
 
 However, it was not the first time I experienced a crash when hooking setter. And after searching a bit, thanks @Leptos, who told me I was forgetting the instance parameter.
 
-![decomp](Screenshots/boost_decomp.png)
+![decomp](Screenshots/NSS_boost_decomp.png)
 
 Yes, obviously, I originally thought the `void *` pointer was an issue with the decomp, but no it was the instance.
 
@@ -60,7 +60,7 @@ It finally works !
 
 Now, I can try and patch android. After opening the `libgof2hdaa.so`. I immediatly opened the `setBoostPercentage(float, int)`. Switched to the disassembly view and got this.
 
-![decomp_android](Screenshots/android_decomp.png)
+![decomp_android](Screenshots/NSS_android_decomp.png)
 
 To patch the android version, I started by replacing the opcodes in that function by simply `bx lr`, which simply returns to the caller function.
 
